@@ -1,0 +1,17 @@
+#include <Arduino.h>
+#include "../communication/uwb_comm.h"
+
+void setup() {
+    Serial.begin(115200);
+    initUWB();
+}
+
+void loop() {
+    float distance = getDistance();
+
+    Serial.print("[Floating Node] Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+
+    delay(1000);
+}
