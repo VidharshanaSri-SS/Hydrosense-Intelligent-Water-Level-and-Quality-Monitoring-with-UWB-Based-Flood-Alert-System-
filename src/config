@@ -1,0 +1,15 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+extern float TOTAL_HEIGHT;      
+extern float EMPTY_DISTANCE;    
+
+#define DANGER_PERCENT 0.75
+#define WARNING_PERCENT 0.50
+
+#define PH_LOW 6.5
+#define PH_HIGH 8.5
+
+#define PH_SENSOR_PIN 34
+
+#endif
