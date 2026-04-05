@@ -1,0 +1,67 @@
+#include <Arduino.h>
+#include "../communication/uwb_comm.h"
+#include "../sensors/ph_sensor.h"
+#include "../config/config.h"
+
+// Calibration values (SET DURING DEPLOYMENT)
+
+float TOTAL_HEIGHT = 120.0;     // cm (example)
+float EMPTY_DISTANCE = 150.0;   // cm (distance when empty)
+
+void setup() {
+    Serial.begin(115200);
+    initUWB();
+}
+
+void loop() {
+    float currentDistance = getDistance();
+    float phValue = readPH();
+
+    // Water Level Calculation
+
+    float waterLevel = EMPTY_DISTANCE - currentDistance;
+
+   
+    // Dynamic Thresholds
+    
+    float dangerLevel = TOTAL_HEIGHT * DANGER_PERCENT;
+    float warningLevel = TOTAL_HEIGHT * WARNING_PERCENT;
+
+    // Output
+   
+    Serial.println("------ SYSTEM STATUS ------");
+
+    Serial.print("Distance: ");
+    Serial.print(currentDistance);
+    Serial.println(" cm");
+
+    Serial.print("Water Level: ");
+    Serial.print(waterLevel);
+    Serial.println(" cm");
+
+    Serial.print("pH Value: ");
+    Serial.println(phValue);
+
+    
+    // Alert Logic
+   
+    if (waterLevel >= dangerLevel) {
+        Serial.println("⚠️ DANGER LEVEL!");
+    }
+    else if (waterLevel >= warningLevel) {
+        Serial.println("⚠️ WARNING LEVEL!");
+    }
+    else {
+        Serial.println("✅ SAFE LEVEL");
+    }
+
+    // pH Alert
+  
+    if (phValue < PH_LOW || phValue > PH_HIGH) {
+        Serial.println("⚠️ WATER QUALITY ALERT!");
+    }
+
+    Serial.println("---------------------------\n");
+
+    delay(2000);
+}
