@@ -3,7 +3,7 @@
 
 extern float TOTAL_HEIGHT;      
 extern float EMPTY_DISTANCE;    
-
+ 
 #define DANGER_PERCENT 0.75
 #define WARNING_PERCENT 0.50
 
